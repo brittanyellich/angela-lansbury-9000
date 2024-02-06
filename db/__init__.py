@@ -14,6 +14,8 @@ from db.model.santa_participant import *
 from db.model.birthday import *
 from db.model.guild_config import *
 from db.model.user_channel_settings import *
+from db.model.user_roles import *
 from db.model.user_settings import *
+from db.model.on_break import *
 
 alembic = Alembic(DB, 'db/migrations')

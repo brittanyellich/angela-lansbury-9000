@@ -3,7 +3,7 @@ from typing import List
 import nextcord
 import sentry_sdk
 import sqlalchemy as sa
-from nextcord import slash_command, Interaction, SlashOption, Permissions
+from nextcord import slash_command, Interaction, SlashOption, Permissions, TextChannel
 from nextcord.ext import commands
 
 from bot.events.handlers.temp_discussion_handler import REACTION_CHANNEL_ID, REACTION_MESSAGE_ID, ROLE_ID, \
@@ -11,11 +11,24 @@ from bot.events.handlers.temp_discussion_handler import REACTION_CHANNEL_ID, REA
 from bot.utils import messages
 from bot.utils.constants import TESTING_GUILD_ID, ANGELA_TECH_SUPPORT_ID, BUMPERS_GUILD_ID
 from db import ImageMessageToDelete, DB
+from db.helpers import guild_config_helper
 
 
 class AdminCommands(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+    
+    @slash_command(name='config',
+                   description='Configure Angela Lansbury 9000 bot settings',
+                   guild_ids=[TESTING_GUILD_ID])
+    async def config(self, interaction: Interaction,
+                                mod_channel: TextChannel = SlashOption(name='mod_channel',
+                                                                description='Channel to communicate with the mods', required=False)):
+        if mod_channel is not None:
+            config = guild_config_helper.update_guild_config(interaction.guild_id, mod_channel_id=mod_channel.id)
+            if not config:
+                return await interaction.send(f'An error occurred when updating the mod channel.')
+        await interaction.send('Successfully updated config!', ephemeral=True)
 
     @slash_command(name='distribute-role',
                    description='Initialize discussion role distribution',

@@ -5,6 +5,7 @@ from nextcord.ext import commands
 from bot.cogs import AutoDeleteCommands, ImageMessageDeleteCommands
 from bot.cogs.activity.activity_commands import ActivityCommands
 from bot.cogs.admin.admin_commands import AdminCommands
+from bot.cogs.on_break.break_commands import BreakCommands
 from bot.cogs.birthday.birthday_commands import BirthdayCommands
 from bot.cogs.server_admin.server_admin_commands import ServerAdminCommands
 from bot.cogs.threads.threads_commands import ThreadsCommands
@@ -47,6 +48,7 @@ def run():
     bot.add_cog(ImageMessageDeleteCommands(bot))
     bot.add_cog(ActivityCommands(bot))
     bot.add_cog(BirthdayCommands(bot))
+    bot.add_cog(BreakCommands(bot))
     bot.add_cog(AdminCommands(bot))
     bot.add_cog(ThreadsCommands(bot))
     bot.add_cog(ServerAdminCommands())
